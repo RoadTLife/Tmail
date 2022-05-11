@@ -3,6 +3,7 @@ package com.womai.road.mail.member.controller;
 import java.util.Arrays;
 import java.util.Map;
 
+import com.womai.road.mail.member.feign.CouponFeignService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -29,6 +30,18 @@ import com.womai.road.common.utils.R;
 public class MemberController {
     @Autowired
     private MemberService memberService;
+
+    @Autowired
+    CouponFeignService couponFeignService;
+
+    @RequestMapping("/coupon")
+    public R getMemberCoupon(){
+        MemberEntity memberEntity = new MemberEntity();
+        memberEntity.setNickname("张三");
+
+        R memberCoupon = couponFeignService.getMemberCoupon();
+        return R.ok().put("member", memberEntity).put("coupon",memberCoupon.get("coupon"));
+    }
 
     /**
      * 列表
